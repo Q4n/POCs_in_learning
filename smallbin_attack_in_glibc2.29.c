@@ -16,6 +16,7 @@ int main(){
     for(int i=0;i<8;i++)
         free(ps[i]);
     malloc(0x1000);
+    // ps[7] is in smallbin
 
     stack1[0]=0;
     stack1[1]=0x20; // bypass calloc memset, above 0x20 is OK.
@@ -37,5 +38,7 @@ int main(){
     void*p1=calloc(1,0x68);
     void*p2=calloc(1,0x68); 
     fprintf(stderr,"p1: %p\np2: %p\n",p1,p2);
+
+    // tips, if we want to alloc to tcache, we need to ptr p1-p2==0x10
     return 0;
 }
