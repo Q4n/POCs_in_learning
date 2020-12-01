@@ -13,5 +13,5 @@
 - z3的初级脚本
 - iofile 相关的内容
 - c/c++一些函数用法(setbuf之流), 易错的点(unique_ptr)
-- Windows heap (TODO)
+- Windows heap
 
