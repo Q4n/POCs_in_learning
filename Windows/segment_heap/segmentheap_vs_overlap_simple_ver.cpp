@@ -9,6 +9,10 @@ VS(VARIABLE SIZE ALLOCATION) block overlap POC
     需要有heap的前向越界写
 预期效果:
     获得两个overlap的block
+
+这里顺便提一下:
+	比如ptr = Alloc(0x1000)
+	那么ptr + 0x1000 + 0x18 的位置是有一个指向heap的指针的(虽然我还没整明白这个是哪个域的, 而且他没有对齐)
 */
 
 #include <windows.h>
