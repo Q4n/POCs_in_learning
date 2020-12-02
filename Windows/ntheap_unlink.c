@@ -1,4 +1,5 @@
 // http://blog.eonew.cn/archives/1216
+// tested on windows 10 x86
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
