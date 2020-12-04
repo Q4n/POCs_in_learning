@@ -6,16 +6,20 @@
 
 ## 分类
 
-分类有些乱. 
+分类有亿点点乱 
 
 - 有关glibc堆溢出的学习
 - seccomp的学习
+    - seccomp-tools
 - z3的初级脚本
+    - 忘记是啥时候的题了
 - iofile 相关的内容
+    - 堆在`ubuntu1604`中了...
 - c/c++一些函数用法(setbuf之流), 易错的点(unique_ptr)
 - Windows heap 入门
     1. segment heap
     2. nt heap
+    3. file structure
 
 
 
