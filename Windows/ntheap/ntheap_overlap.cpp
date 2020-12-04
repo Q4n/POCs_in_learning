@@ -8,12 +8,15 @@ ntheap frontend overlap POC
 注意:
     调试时, 直接运行程序, 和用windbg调试打开的程序的heap是不一样的.
     正确的调试方法是, 在cmd中运行, 然后attach上去查看
-        这样可以清晰看到_heap 中的FrontEndHeap是默认打开的, 也就是会使用LFH
+        这样可以清晰看到_heap 中的FrontEndHeap是默认打开的, 也就是可能会使用LFH
         此时malloc(0x100) -> 实际size为0x110
     假如在调试模式下FrontEndHeap是默认关闭
         并且比如malloc(0x100) -> 实际size为0x130
         而且_heap_entry->flag域也不一样
-    LFH range: < 0x4000
+    LFH range: < 0x4000, 并且需要分配大小相同的size 大概18次左右, 才会启用LFH, 而且LFH貌似只是针对同一个size
+		所以可以看出, poc这里并不是lfh
+		
+		btw, 我们可以用 !heap -x 查看heap, 如果后面的flag中有LFH的字样, 才是使用了LFH
 要求:
     需要能越界写_heap_entry的头部
 预期效果:

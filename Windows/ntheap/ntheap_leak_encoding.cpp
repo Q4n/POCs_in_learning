@@ -15,7 +15,7 @@ _heap->Encoding这个值在 _heap + 0x88 的位置
 注意:
     调试时, 直接运行程序, 和用windbg调试打开的程序的heap是不一样的.
     正确的调试方法是, 在cmd中运行, 然后attach上去查看
-        这样可以清晰看到_heap 中的FrontEndHeap是默认打开的, 也就是会使用LFH
+        这样可以清晰看到_heap 中的FrontEndHeap是默认打开的
         此时malloc(0x100) -> 实际size为0x110
     假如在调试模式下FrontEndHeap是默认关闭
         并且比如malloc(0x100) -> 实际size为0x130
