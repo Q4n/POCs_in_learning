@@ -20,7 +20,7 @@
     1. segment heap
     2. nt heap
     3. file structure
-
+- some tricks
 
 
 PS: 有误的地方, 欢迎师傅们联系我一起交流  :D
