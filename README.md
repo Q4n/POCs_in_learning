@@ -20,6 +20,7 @@
     1. segment heap
     2. nt heap
     3. file structure
+    4. misc
 - vm
 - some tricks
 
