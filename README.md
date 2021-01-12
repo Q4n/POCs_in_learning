@@ -22,6 +22,7 @@
     3. file structure
     4. misc
 - vm
+- crack scripts
 - some tricks
 
 

@@ -42,7 +42,7 @@ def patchfile():
 
 if __name__ == '__main__':
     print("Usage: \n\t1. 打开一次source insight4, 并且选择试用30天\n\t2. 接着关闭source insight4运行本软件\n\t")
-    print("用法: main.py [path_to_sourceinsight4.exe]\n可以获得无限\n")
+    print("用法: main.py [path_to_sourceinsight4.exe]\n(大概)可以获得无限试用\n")
     t = input("press y to continue")
     if t != 'y':
         exit(0)
