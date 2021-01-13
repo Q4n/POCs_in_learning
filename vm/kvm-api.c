@@ -1,9 +1,12 @@
 /* 
+gcc ./kvm-api.c -o kvm-api && sudo ./kvm-api
+
 refer:
     https://billyotry.github.io/2020/10/05/%5BConfidence%20CTF%5Dkvm/#%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98
     https://lwn.net/Articles/658511/
     https://github.com/dpw/kvm-hello-world/blob/master/kvm-hello-world.c
 
+linux.*\virt\kvm\kvm_main.c
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,13 +27,12 @@ int main(){
     int kvmfd = open(KVM_FILE, O_RDWR | O_CLOEXEC ); 
     printf("%d\n",kvmfd);
     
-    ioctl(kvmfd,KVM_GET_API_VERSION,NULL);
-    int vmfd = ioctl(kvmfd, KVM_CREATE_VM, 0);
+    ioctl(kvmfd,KVM_GET_API_VERSION,NULL); // call kvm_dev_ioctl
+    int vmfd = ioctl(kvmfd, KVM_CREATE_VM, 0); // call kvm_dev_ioctl
 
     unsigned char *ram = mmap(NULL, 0x1000, PROT_READ| PROT_WRITE, MAP_SHARED| MAP_ANONYMOUS, -1, 0);
 
-    // as -32 xx.c -o xx.o
-    // objcopy -O binary xx.o xx.bin
+    // as -32 test.S -o test.o && objcopy -O binary test.o test.bin
     int kfd = open("test.bin",O_RDONLY);
     read(kfd,ram,4096);
 
@@ -41,30 +43,33 @@ int main(){
         .userspace_addr = (unsigned long) ram,
     };
 
-    ret = ioctl(vmfd,KVM_SET_USER_MEMORY_REGION, &mem );
+    ret = ioctl(vmfd,KVM_SET_USER_MEMORY_REGION, &mem ); // call kvm_vm_ioctl
     printf("%d\n",ret);
 
     int vcpufd = ioctl(vmfd, KVM_CREATE_VCPU, 0);
 
-    int mmap_size = ioctl(kvmfd, KVM_GET_VCPU_MMAP_SIZE,NULL);
+    int mmap_size = ioctl(kvmfd, KVM_GET_VCPU_MMAP_SIZE,NULL); // call kvm_dev_ioctl
 
     struct kvm_run *run = mmap(NULL,mmap_size,PROT_READ|PROT_WRITE, MAP_SHARED, vcpufd, 0);
-    ret = ioctl(vcpufd,KVM_GET_SREGS,&sregs);
+    ret = ioctl(vcpufd,KVM_GET_SREGS,&sregs); // kvm_vcpu_ioctl
     printf("%d\n",ret);
 
     sregs.cs.base = 0;
     sregs.cs.selector = 0;
-    ret = ioctl(vcpufd,KVM_SET_SREGS,&sregs);
+    ret = ioctl(vcpufd,KVM_SET_SREGS,&sregs); // kvm_vcpu_ioctl
     printf("%d\n",ret);
 
     struct kvm_regs regs = {
         .rip=0,
-    };
-    ret = ioctl(vcpufd, KVM_SET_REGS,&regs);
+    }; 
+    ret = ioctl(vcpufd, KVM_SET_REGS,&regs); // kvm_vcpu_ioctl
     printf("%d\n",ret);
+
+    
     while (1)
     {
-        ret = ioctl(vcpufd,KVM_RUN, NULL);
+        ret = ioctl(vcpufd,KVM_RUN, NULL); // kvm_vcpu_ioctl
+
         if (ret == -1 ){
             puts("Exit unk");
             return -1;
