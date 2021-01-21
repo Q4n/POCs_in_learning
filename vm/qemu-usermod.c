@@ -27,7 +27,9 @@ gcc qemu-usermod.c -o test && gdb --args qemu-x86_64 ./test
 
 qemu 和 test 两个二进制程序所有缓解措施都打开
 
-refer: starctf2020(1?), flag2
+refer: starctf2021, flag2
+https://github.com/sixstars/starctf2021/blob/main/re%26pwn-favourite%20architecture/src/sc.c
+
 */
 
 #include <stdint.h>
