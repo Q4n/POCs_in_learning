@@ -38,7 +38,12 @@ void diff(int size) {
 void bakup2ptr1() {
     memcpy_s((void*)&ptr1, sizeof(ptr1), (void *)&ptr, sizeof(ptr));
 }
-
+/*
+LFH:
+    Size < 0x4000
+    NTheap LFH: HeapBase(_HEAP)->FrontEndHeap->LocalData->SegmentInfo[]->Hint,ActiveSubsegment,CachedItems->AggregateExchg :: Depth
+    segmentheap LFH: HeapBase(_SEGMENT_HEAP)->LfhContext.Buckets->AffinitySlots[]->State->*SubsegmentList(_HEAP_LFH_SUBSEGMENT)::*Count
+*/
 int main() {
     init();
 
@@ -50,6 +55,9 @@ int main() {
         ptr[i] = Alloc(0x150); // LFH alloc
     }
     bakup2ptr1();
+    log(0x20);
+
+    getchar();
 
     for (int i = 16; i < 32; i++)
     {
